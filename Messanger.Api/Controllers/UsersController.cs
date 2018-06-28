@@ -3,6 +3,7 @@ using Messanger.Domain;
 using Messanger.Infra.DataContexts;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -41,18 +42,38 @@ namespace Messanger.Api.Controllers
             {
                 Id = user.Id,
                 Name = user.Name,
-                AvatarUrl = user.AvatarUrl,
-                Dialogs = user.Dialogs.ToList().Select(d => new DialogViewModel
-                {
-                    Id = d.Id
-                    //LastMessage = new MessageViewModel
-                    //{
-                    //    Id = d.LastMessage.Id,
-                    //    Text = d.LastMessage.Text
-                    //}
-                })
+                AvatarUrl = user.AvatarUrl
             };
             return Ok(userViewModel);
+        }
+
+        [HttpPut]
+        public IHttpActionResult EditUser(int id, UserViewModel userViewModel)
+        {
+            var user = db.Users.Find(id);
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            user.Name = userViewModel.Name;
+            user.AvatarUrl = userViewModel.AvatarUrl;
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+            var userFound = db.Users.Find(id);
+            var userModel = new UserViewModel
+            {
+                Id = userFound.Id,
+                Name = userFound.Name,
+                AvatarUrl = userFound.AvatarUrl
+            };
+            return Ok(userModel);
         }
     }
 }

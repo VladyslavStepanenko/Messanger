@@ -33,7 +33,7 @@ namespace Messanger.Infra.DataContexts
 
             Message message1 = new Message { Id = 1, Text = "Hello", DialogId = 1, SenderId = 1, ReceiverId = 2 };
             Message message2 = new Message { Id = 2, Text = "Hi", DialogId = 1, SenderId = 2, ReceiverId = 1 };
-            Dialog dialog = new Dialog { Id = 1, UserId = 1, LastMessage =  message2 };
+            Dialog dialog = new Dialog { Id = 1, UserId = 1 };
 
             context.Users.Add(user1);
             context.Users.Add(user2);

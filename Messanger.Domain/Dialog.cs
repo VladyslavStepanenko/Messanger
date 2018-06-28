@@ -5,7 +5,6 @@ namespace Messanger.Domain
     public class Dialog
     {
         public int Id { get; set; }
-        public Message LastMessage  { get; set; }
 
         public int UserId { get; set; }
         public virtual User User { get; set; }
