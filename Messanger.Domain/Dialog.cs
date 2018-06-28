@@ -9,7 +9,7 @@ namespace Messanger.Domain
 
         public int UserId { get; set; }
         public virtual User User { get; set; }
-        public ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
 
         public Dialog()
         {

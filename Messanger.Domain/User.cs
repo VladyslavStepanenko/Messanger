@@ -8,7 +8,7 @@ namespace Messanger.Domain
         public string Name { get; set; }
         public string AvatarUrl { get; set; }
 
-        public ICollection<Dialog> Dialogs { get; set; }
+        public virtual ICollection<Dialog> Dialogs { get; set; }
 
         public User()
         {
