@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContexts\MessangerDbContext.cs" />
+    <Compile Include="Mappings\DialogEntityConfiguration.cs" />
+    <Compile Include="Mappings\MessageEntityConfiguration.cs" />
+    <Compile Include="Mappings\UserEntityConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
