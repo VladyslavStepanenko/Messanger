@@ -1,4 +1,5 @@
 ﻿using Messanger.Domain;
+using Messanger.Infra.Mappings;
 using System.Data.Entity;
 
 namespace Messanger.Infra.DataContexts
@@ -12,6 +13,14 @@ namespace Messanger.Infra.DataContexts
         public MessangerDbContext() : base("MessangerDb")
         {
             Database.SetInitializer(new MessangerDbContextInializer());
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Configurations.Add(new UserEntityConfiguration());
+            modelBuilder.Configurations.Add(new DialogEntityConfiguration());
+            modelBuilder.Configurations.Add(new MessageEntityConfiguration());
+            base.OnModelCreating(modelBuilder);
         }
     }
 
