@@ -20,15 +20,15 @@ namespace Messanger.Api.Controllers
             db = new MessangerDbContext();
         }
 
-        public IEnumerable<UserViewModel> GetUsers()
+        public IHttpActionResult GetUsers()
         {
             var users =  db.Users.ToList();
-            return users.Select(u => new UserViewModel
+            return Ok(users.Select(u => new UserViewModel
             {
                 Id = u.Id,
                 Name = u.Name,
                 AvatarUrl = u.AvatarUrl
-            });
+            }));
         }
 
         public IHttpActionResult GetUser(int id)
@@ -45,6 +45,25 @@ namespace Messanger.Api.Controllers
                 AvatarUrl = user.AvatarUrl
             };
             return Ok(userViewModel);
+        }
+
+        [HttpPost]
+        public IHttpActionResult CreateUser(UserViewModel userViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new User
+            {
+                Name = userViewModel.Name,
+                AvatarUrl = userViewModel.AvatarUrl
+            };
+            db.Users.Add(user);
+            db.SaveChanges();
+
+            return Ok(); // todo
         }
 
         [HttpPut]
@@ -74,6 +93,19 @@ namespace Messanger.Api.Controllers
                 AvatarUrl = userFound.AvatarUrl
             };
             return Ok(userModel);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteUser(int id)
+        {
+            var user = db.Users.Find(id);
+            if(user == null)
+            {
+                return NotFound();
+            }
+            db.Entry(user).State = EntityState.Deleted;
+            db.SaveChanges();
+            return GetUsers(); // ?
         }
     }
 }
