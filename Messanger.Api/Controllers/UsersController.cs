@@ -12,6 +12,7 @@ using System.Web.Http;
 namespace Messanger.Api.Controllers
 {
     [RoutePrefix("api/users")]
+    [Authorize]
     public class UsersController : ApiController
     {
         private MessangerDbContext db;
@@ -24,7 +25,7 @@ namespace Messanger.Api.Controllers
         [Route("")]
         public IHttpActionResult GetUsers()
         {
-            var users =  db.Users.ToList();
+            var users = db.Users.ToList();
             return Ok(users.Select(u => new UserViewModel
             {
                 Id = u.Id,
@@ -34,10 +35,11 @@ namespace Messanger.Api.Controllers
         }
 
         [Route("{id:int}")]
+        [Authorize]
         public IHttpActionResult GetUser(int id)
         {
             User user = db.Users.Find(id);
-            if(user == null)
+            if (user == null)
             {
                 return NotFound();
             }
@@ -52,7 +54,8 @@ namespace Messanger.Api.Controllers
 
         [Route("")]
         [HttpPost]
-        public IHttpActionResult CreateUser(UserViewModel userViewModel)
+        [AllowAnonymous]
+        public IHttpActionResult RegisterUser(RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -61,8 +64,9 @@ namespace Messanger.Api.Controllers
 
             var user = new User
             {
-                Name = userViewModel.Name,
-                AvatarUrl = userViewModel.AvatarUrl
+                Name = registerViewModel.Name,
+                Password = registerViewModel.Password,
+                AvatarUrl = registerViewModel.AvatarUrl
             };
             db.Users.Add(user);
             db.SaveChanges();
@@ -72,10 +76,11 @@ namespace Messanger.Api.Controllers
 
         [Route("{id:int}")]
         [HttpPut]
+        [Authorize]
         public IHttpActionResult EditUser(int id, UserViewModel userViewModel)
         {
             var user = db.Users.Find(id);
-            if(user == null)
+            if (user == null)
             {
                 return NotFound();
             }
@@ -102,10 +107,11 @@ namespace Messanger.Api.Controllers
 
         [Route("{id:int}")]
         [HttpDelete]
+        [Authorize]
         public IHttpActionResult DeleteUser(int id)
         {
             var user = db.Users.Find(id);
-            if(user == null)
+            if (user == null)
             {
                 return NotFound();
             }

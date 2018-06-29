@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messanger.Domain", "Messang
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messanger.Infra", "Messanger.Infra\Messanger.Infra.csproj", "{331A7668-4650-4B30-B7D0-808DEDD28ED5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messanger.Api", "Messanger.Api\Messanger.Api.csproj", "{8998404E-5196-494F-A70C-B80482B7C3A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messanger.Api", "Messanger.Api\Messanger.Api.csproj", "{A61C3C9D-EAF4-47F8-98C1-679144D0217A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{331A7668-4650-4B30-B7D0-808DEDD28ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{331A7668-4650-4B30-B7D0-808DEDD28ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{331A7668-4650-4B30-B7D0-808DEDD28ED5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8998404E-5196-494F-A70C-B80482B7C3A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8998404E-5196-494F-A70C-B80482B7C3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8998404E-5196-494F-A70C-B80482B7C3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8998404E-5196-494F-A70C-B80482B7C3A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A61C3C9D-EAF4-47F8-98C1-679144D0217A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A61C3C9D-EAF4-47F8-98C1-679144D0217A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A61C3C9D-EAF4-47F8-98C1-679144D0217A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A61C3C9D-EAF4-47F8-98C1-679144D0217A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

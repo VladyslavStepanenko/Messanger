@@ -59,6 +59,10 @@
     <Compile Include="Migrations\201806282142429_RemoveLastMessageFromDialog.Designer.cs">
       <DependentUpon>201806282142429_RemoveLastMessageFromDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806291340130_AddPasswordToUser.cs" />
+    <Compile Include="Migrations\201806291340130_AddPasswordToUser.Designer.cs">
+      <DependentUpon>201806291340130_AddPasswordToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,6 +82,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806282142429_RemoveLastMessageFromDialog.resx">
       <DependentUpon>201806282142429_RemoveLastMessageFromDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806291340130_AddPasswordToUser.resx">
+      <DependentUpon>201806291340130_AddPasswordToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

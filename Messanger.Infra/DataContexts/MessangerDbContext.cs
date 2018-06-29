@@ -28,8 +28,8 @@ namespace Messanger.Infra.DataContexts
     {
         protected override void Seed(MessangerDbContext context)
         {
-            User user1 = new User { Id = 1, Name = "User1", AvatarUrl = "ava1" };
-            User user2 = new User { Id = 2, Name = "User2", AvatarUrl = "ava2" };
+            User user1 = new User { Id = 1, Name = "User1", Password = "pas1", AvatarUrl = "ava1" };
+            User user2 = new User { Id = 2, Name = "User2", Password = "pas2", AvatarUrl = "ava2" };
 
             Message message1 = new Message { Id = 1, Text = "Hello", DialogId = 1, SenderId = 1, ReceiverId = 2 };
             Message message2 = new Message { Id = 2, Text = "Hi", DialogId = 1, SenderId = 2, ReceiverId = 1 };
