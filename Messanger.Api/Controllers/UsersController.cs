@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace Messanger.Api.Controllers
 {
+    [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
         private MessangerDbContext db;
@@ -20,6 +21,7 @@ namespace Messanger.Api.Controllers
             db = new MessangerDbContext();
         }
 
+        [Route("")]
         public IHttpActionResult GetUsers()
         {
             var users =  db.Users.ToList();
@@ -31,6 +33,7 @@ namespace Messanger.Api.Controllers
             }));
         }
 
+        [Route("{id:int}")]
         public IHttpActionResult GetUser(int id)
         {
             User user = db.Users.Find(id);
@@ -47,6 +50,7 @@ namespace Messanger.Api.Controllers
             return Ok(userViewModel);
         }
 
+        [Route("")]
         [HttpPost]
         public IHttpActionResult CreateUser(UserViewModel userViewModel)
         {
@@ -66,6 +70,7 @@ namespace Messanger.Api.Controllers
             return Ok(); // todo
         }
 
+        [Route("{id:int}")]
         [HttpPut]
         public IHttpActionResult EditUser(int id, UserViewModel userViewModel)
         {
@@ -95,6 +100,7 @@ namespace Messanger.Api.Controllers
             return Ok(userModel);
         }
 
+        [Route("{id:int}")]
         [HttpDelete]
         public IHttpActionResult DeleteUser(int id)
         {
