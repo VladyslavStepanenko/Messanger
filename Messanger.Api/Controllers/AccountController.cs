@@ -3,6 +3,7 @@ using Messanger.Domain;
 using Messanger.Infra.DataContexts;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -78,5 +79,26 @@ namespace Messanger.Api.Controllers
             return response;
         }
 
+        [Route("change_password")]
+        [Authorize]
+        [HttpPut]
+        public HttpResponseMessage ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+            var user = dbContext.Users.SingleOrDefault(u => u.Name == User.Identity.Name);
+            if (!user.Password.Equals(model.CurrentPassword))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Wrong current password");
+            }
+            user.Password = model.NewPassword;
+            dbContext.Entry(user).State = EntityState.Modified;
+            return Request.CreateResponse(HttpStatusCode.OK, new
+            {
+                status = "updated"
+            });
+        }
     }
 }

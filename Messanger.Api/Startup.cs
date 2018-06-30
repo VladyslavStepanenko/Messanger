@@ -36,7 +36,7 @@ namespace Messanger.Api
             OAuthAuthorizationServerOptions authorizationServerOptions = new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/api/token"),
+                TokenEndpointPath = new PathString("/api/account/login"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromHours(1),
                 Provider = new AuthorizationServerProvider(dataContext)
             };
