@@ -1,4 +1,5 @@
 ﻿using Messanger.Api.Models;
+using Messanger.Domain;
 using Messanger.Infra.DataContexts;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,43 @@ namespace Messanger.Api.Controllers
                 name = user.Name,
                 password = user.Password,
                 avatarUrl = user.AvatarUrl
+            });
+            return response;
+        }
+
+        [Route("register")]
+        [AllowAnonymous]
+        [HttpPost]
+        public HttpResponseMessage Register(RegisterViewModel registerModel)
+        {
+            // check if user already exists
+            var user = dbContext.Users.SingleOrDefault(u => u.Name == registerModel.Name);
+            HttpResponseMessage response = new HttpResponseMessage();
+            if(user != null)
+            {
+                response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, 
+                    $"Name = {registerModel.Name} already in use");
+                return response;
+            }
+            user = new User
+            {
+                Name = registerModel.Name,
+                Password = registerModel.Password,
+                AvatarUrl = registerModel.AvatarUrl
+            };
+            dbContext.Users.Add(user);
+            dbContext.SaveChanges();
+            user = dbContext.Users.SingleOrDefault(u => u.Name == registerModel.Name);
+            response = Request.CreateResponse(HttpStatusCode.OK, new
+            {
+                status = "registered",
+                user = new UserViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Password = user.Password,
+                    AvatarUrl = user.AvatarUrl
+                }
             });
             return response;
         }
