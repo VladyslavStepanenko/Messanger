@@ -34,10 +34,13 @@ namespace Messanger.Api.Controllers
             }
             response = Request.CreateResponse(HttpStatusCode.OK, new
             {
-                id = user.Id,
-                name = user.Name,
-                password = user.Password,
-                avatarUrl = user.AvatarUrl
+                user = new AccountViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Password = user.Password,
+                    AvatarUrl = user.AvatarUrl
+                }
             });
             return response;
         }
@@ -68,7 +71,7 @@ namespace Messanger.Api.Controllers
             response = Request.CreateResponse(HttpStatusCode.OK, new
             {
                 status = "registered",
-                user = new UserViewModel
+                user = new AccountViewModel
                 {
                     Id = user.Id,
                     Name = user.Name,
@@ -95,6 +98,7 @@ namespace Messanger.Api.Controllers
             }
             user.Password = model.NewPassword;
             dbContext.Entry(user).State = EntityState.Modified;
+            dbContext.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, new
             {
                 status = "updated"
