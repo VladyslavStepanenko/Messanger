@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace Messanger.Api.Controllers
 {
-    [RoutePrefix("api/user")]
+    [RoutePrefix("api/users")]
     public class DialogController : ApiController
     {
         private MessangerDbContext dbContext;
@@ -34,16 +34,18 @@ namespace Messanger.Api.Controllers
                 count = dialogsByUser.Count,
                 dialogs = dialogsByUser.Select(d => new DialogViewModel
                 {
-                    Id = d.Id,
-                    LastMessage = new MessageViewModel
+                    Id = d.DialogId,
+                    LastMessage = d.Messages.Select(m => new MessageViewModel
                     {
-                        Id = d.Messages.LastOrDefault().Id, // ?!
-                        Text = d.Messages.LastOrDefault().Text,
+                        Id = m.MessageId,
+                        Text = m.Text,
                         Sender = new UserViewModel
                         {
-                            Id = d.Messages.LastOrDefault().SenderId
+                            Id = m.UserId,
+                            Name = m.User.Name,
+                            AvatarUrl = m.User.AvatarUrl
                         }
-                    }
+                    }).LastOrDefault()
                 })
             });
         }
@@ -56,7 +58,7 @@ namespace Messanger.Api.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User not found");
             }
-            var dialogByUser = user.Dialogs.SingleOrDefault(d => d.Id == dialogId);
+            var dialogByUser = user.Dialogs.SingleOrDefault(d => d.DialogId == dialogId);
             if(dialogByUser == null)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Dialog not found");
@@ -67,11 +69,13 @@ namespace Messanger.Api.Controllers
                 count = messagesByDialog.Count,
                 messages = messagesByDialog.Select(m => new MessageViewModel
                 {
-                    Id = m.Id,
+                    Id = m.MessageId,
                     Text = m.Text,
                     Sender = new UserViewModel
                     {
-                        Id = m.SenderId
+                        Id = m.UserId,
+                        Name = m.User.Name,
+                        AvatarUrl = m.User.AvatarUrl
                     }
                 })
             });
@@ -98,25 +102,23 @@ namespace Messanger.Api.Controllers
             var message = new Message
             {
                 Text = model.Text,
-                SenderId = sender.Id,
-                ReceiverId = receiver.Id,
+                User = sender,
+                UserId = sender.UserId
             };
-            // find dialog by users
-            var dialog = sender.Dialogs.Intersect(receiver.Dialogs).SingleOrDefault();
-            if(dialog == null)
+            // find dialog
+            var dialog = sender.Dialogs.SingleOrDefault(d => d.Users.Contains(receiver));
+            if (dialog == null)
             {
-                dialog = new Dialog
-                {
-                    UserId = sender.Id,
-                    User = sender
-                };
-                dbContext.Dialogs.Add(dialog);
-                dbContext.SaveChanges();
+                dialog = new Dialog();
+                //dbContext.Dialogs.Add(dialog);
+                //dbContext.SaveChanges();
             }
+            dialog.Users.Add(sender);
+            dialog.Users.Add(receiver);
             dialog.Messages.Add(message);
-            dbContext.Entry(dialog).State = EntityState.Modified;
+            //dbContext.Entry(dialog).State = EntityState.Modified;
             message.Dialog = dialog;
-            message.DialogId = dialog.Id;
+            message.DialogId = dialog.DialogId;
             dbContext.Messages.Add(message);
             dbContext.SaveChanges();
 

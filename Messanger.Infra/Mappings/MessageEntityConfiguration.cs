@@ -8,13 +8,9 @@ namespace Messanger.Infra.Mappings
         public MessageEntityConfiguration()
         {
             ToTable("Message");
-            HasKey(m => m.Id);
+            HasKey(m => m.MessageId);
             Property(m => m.Text)
                 .HasMaxLength(50)
-                .IsRequired();
-            Property(m => m.SenderId)
-                .IsRequired();
-            Property(m => m.ReceiverId)
                 .IsRequired();
             HasRequired(m => m.Dialog)
                 .WithMany(d => d.Messages)

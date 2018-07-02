@@ -1,8 +1,6 @@
 ﻿using Messanger.Api.Models;
 using Messanger.Domain;
 using Messanger.Infra.DataContexts;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -22,7 +20,7 @@ namespace Messanger.Api.Controllers
         }
 
         [Route("{id:int}")]
-        [Authorize]
+        //[Authorize]
         public HttpResponseMessage GetUser(int id)
         {
             var user = dbContext.Users.Find(id);
@@ -36,7 +34,7 @@ namespace Messanger.Api.Controllers
             {
                 user = new AccountViewModel
                 {
-                    Id = user.Id,
+                    Id = user.UserId,
                     Name = user.Name,
                     Password = user.Password,
                     AvatarUrl = user.AvatarUrl
@@ -73,7 +71,7 @@ namespace Messanger.Api.Controllers
                 status = "registered",
                 user = new AccountViewModel
                 {
-                    Id = user.Id,
+                    Id = user.UserId,
                     Name = user.Name,
                     Password = user.Password,
                     AvatarUrl = user.AvatarUrl
@@ -81,9 +79,9 @@ namespace Messanger.Api.Controllers
             });
             return response;
         }
-
+        // TODO
         [Route("change_password")]
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         public HttpResponseMessage ChangePassword(ChangePasswordViewModel model)
         {
