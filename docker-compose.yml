@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  messanger.api:
+    image: ${DOCKER_REGISTRY}messangerapi
+    build:
+      context: .\Messanger.Api
+      dockerfile: Dockerfile
